@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "rubygems"
 require "bundler"
 Bundler.require :default, (ENV['RACK_ENV'] || "development").to_sym
@@ -40,7 +42,7 @@ def proxy_response(response)
   content_type ct
   cache_control :public, max_age: 600  # 10 mins.
 
-  body = response.body
+  body = response.body.force_encoding("UTF-8")
 
   return body unless ct.include?("text/html")
 
@@ -51,13 +53,13 @@ def proxy_response(response)
 end
 
 def batmanize(text)
-  text.gsub(/\b(t)(a)(l)(man)/i) {
+  text.gsub(/\b(t)(a)(l)(m[aä]n)/i) {
     "#{$1.tr 'Tt', 'Bb'}#$2#{$3.tr 'Ll', 'Tt'}#$4"
   }
 end
 
 def debatmanize(text)
-  text.gsub(/\b(b)(a)(t)(man)/i) {
+  text.gsub(/\b(b)(a)(t)(m[aä]n)/i) {
     "#{$1.tr 'Bb', 'Tt'}#$2#{$3.tr 'Tt', 'Ll'}#$4"
   }
 end

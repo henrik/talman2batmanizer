@@ -53,7 +53,7 @@ def proxy_response(response)
 end
 
 def batmanize(text)
-  text.gsub(/\b(t)(a)(l)(m[aä]n)/i) {
+  text.gsub(/\b(t)(a)(l)(m(a|ä|&#228;)n)/i) {
     "#{$1.tr 'Tt', 'Bb'}#$2#{$3.tr 'Ll', 'Tt'}#$4"
   }
 end

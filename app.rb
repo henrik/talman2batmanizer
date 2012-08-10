@@ -6,10 +6,11 @@ Bundler.require :default, (ENV['RACK_ENV'] || "development").to_sym
 require "net/http"
 require "./caching"
 
+HOST = "www.riksdagen.se"
 START_PATH = "/sv/Sa-funkar-riksdagen/Talmannen/"
 
 get "/" do
-  proxy_get(START_PATH)
+  proxy_get START_PATH
 end
 
 get "*" do
@@ -22,7 +23,7 @@ end
 
 
 def make_uri(path)
-  URI.parse("http://www.riksdagen.se" + debatmanize(path))
+  URI.parse("http://#{HOST}" + debatmanize(path))
 end
 
 def proxy_get(path)
@@ -47,7 +48,7 @@ def proxy_response(response)
   return body unless ct.include?("text/html")
 
   # There are some absolute links in there.
-  body.gsub!("www.riksdagen.se", request.host_with_port)
+  body.gsub!(HOST, request.host_with_port)
 
   batmanize body
 end

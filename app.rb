@@ -1,12 +1,13 @@
 require "rubygems"
 require "bundler"
 Bundler.require :default, (ENV['RACK_ENV'] || "development").to_sym
-
 require "net/http"
+require "./caching"
 
+START_PATH = "/sv/Sa-funkar-riksdagen/Batmannen/"
 
 get "/" do
-  proxy_get("/Dokument-Lagar/Kammaren/Protokoll/")
+  proxy_get(START_PATH)
 end
 
 get "*" do
@@ -34,9 +35,14 @@ end
 
 
 def proxy_response(response)
-  content_type response['content-type']
+  ct = response['content-type']
+
+  content_type ct
+  cache_control :public, max_age: 600  # 10 mins.
 
   body = response.body
+
+  return body unless ct.include?("text/html")
 
   # There are some absolute links in there.
   body.gsub!("www.riksdagen.se", request.host_with_port)

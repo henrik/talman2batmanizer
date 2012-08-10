@@ -24,18 +24,24 @@ end
 
 def proxy_get(path)
   uri = make_uri(path)
-  response = Net::HTTP.get_response(uri)
-
-  content_type response['content-type']
-  batmanize response.body
+  proxy_response Net::HTTP.get_response(uri)
 end
 
 def proxy_post(path, params)
   uri = make_uri(path)
-  response = Net::HTTP.post_form(uri, params)
+  proxy_response Net::HTTP.post_form(uri, params)
+end
 
+
+def proxy_response(response)
   content_type response['content-type']
-  batmanize response.body
+
+  body = response.body
+
+  # There are some absolute links in there.
+  body.gsub!("www.riksdagen.se", request.host_with_port)
+
+  batmanize body
 end
 
 def batmanize(text)

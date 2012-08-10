@@ -6,7 +6,7 @@ Bundler.require :default, (ENV['RACK_ENV'] || "development").to_sym
 require "net/http"
 require "./caching"
 
-START_PATH = "/sv/Sa-funkar-riksdagen/Batmannen/"
+START_PATH = "/sv/Sa-funkar-riksdagen/Talmannen/"
 
 get "/" do
   proxy_get(START_PATH)

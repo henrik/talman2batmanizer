@@ -2,7 +2,7 @@
 
 Tiny web proxy for [the Swedish parliament website](www.riksdagen.se) that replaces "talman" (Speaker of the Riksdag) with "Batman":
 
-http://t2b.nyh.name
+http://talman2batmanizer.nyh.name
 
 I did one of these ages ago in PHP and started to miss it. That one was statically generated, though, and this one is a (slightly cached) proxy.
 

@@ -50,11 +50,17 @@ def proxy_response(response)
   # There are some absolute links in there.
   body.gsub!(HOST, request.host_with_port)
 
-  batmanize body
+  disclaim(batmanize(body))
 end
 
-def batmanize(text)
-  text.gsub(/\b(t)(a)(l)(m(a|ä|&#228;)n)/i) {
+def disclaim(html)
+  html.sub(/<header.*?>/) {
+    $& + erb(:disclaimer)
+  }
+end
+
+def batmanize(html)
+  html.gsub(/\b(t)(a)(l)(m(a|ä|&#228;)n)/i) {
     "#{$1.tr 'Tt', 'Bb'}#$2#{$3.tr 'Ll', 'Tt'}#$4"
   }
 end

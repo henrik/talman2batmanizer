@@ -21,11 +21,6 @@ post "*" do
   proxy_post request.fullpath, params
 end
 
-
-def make_uri(path)
-  URI.parse("http://#{HOST}" + debatmanize(path))
-end
-
 def proxy_get(path)
   uri = make_uri(path)
   proxy_response Net::HTTP.get_response(uri)
@@ -36,6 +31,9 @@ def proxy_post(path, params)
   proxy_response Net::HTTP.post_form(uri, params)
 end
 
+def make_uri(path)
+  URI.parse("http://#{HOST}" + debatmanize(path))
+end
 
 def proxy_response(response)
   ct = response['content-type']

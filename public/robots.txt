@@ -1,0 +1,3 @@
+# Prevent indexing most of the site to reduce traffic and keep Heroku happy.
+User-agent: *
+Disallow: /sv/
